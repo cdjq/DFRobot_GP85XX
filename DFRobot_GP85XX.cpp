@@ -254,9 +254,10 @@ void DFRobot_GP8512::store(void)
 
 bool DFRobot_GP8101::begin(void)
 {
-  pinMode(3, OUTPUT);
-  TCCR2A = _BV(COM2B1) | _BV(WGM21) | _BV(WGM20); //Set Timer2 to varying top limit fast PWM mode
-  TCCR2B = _BV(WGM22) | _BV(CS21)| _BV(CS20);
+  pinMode(9, OUTPUT);
+  TCCR1A = _BV(COM1A1) | _BV(WGM11);
+  TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS10);
+  ICR1 = 7999; // 设置ICR1为4999，使得PWM频率为1000Hz
   return true;
 } 
 
@@ -269,7 +270,6 @@ void DFRobot_GP8101::setDACOutRange(eOutPutRange_t range)
   }else{
     _voltage = 10000;
   }
-  OCR2A = (16000000/32/_frequency)-1;
 }
 
 
@@ -278,9 +278,9 @@ void DFRobot_GP8101::setDACOutVoltage(uint16_t data)
   if(data > _voltage){
     data = _voltage;
   }
-  data = (uint16_t)round(((float)data*10 / _voltage)/10 * OCR2A);
-  OCR2B = data;
-  Serial.println(OCR2B);
+  data = (uint16_t)round(((float)data/_voltage)* 7999);
+  Serial.println(data);
+  OCR1A = data;
 }
  
 /**************************************************************************
@@ -290,28 +290,20 @@ void DFRobot_GP8101::setDACOutVoltage(uint16_t data)
 
 bool DFRobot_GP8501::begin(void)
 {
-  pinMode(3, OUTPUT);
-  pinMode(11, OUTPUT);
-  TCCR2A = _BV(WGM20); //Set Timer2 to varying top limit fast PWM mode
-  TCCR2B =  _BV(CS21)| _BV(CS20);
+  TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11);
+  TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS10);
+  ICR1 = 7999; // 设置ICR1为7999，使得PWM频率为2000Hz
   return true;
 }
 
 
-void DFRobot_GP8501::setDACOutRange(eOutPutRange_t range, uint8_t channel,float vcc)
+void DFRobot_GP8501::setDACOutRange(eOutPutRange_t range, float vcc)
 {
   if(range == eOutPutRange_t::eOutputRange2_5V)
   {
     _voltage = 2500;
   }else{
     _voltage = vcc*1000;
-  }
-  if(channel == 0){
-	TCCR2A = _BV(COM2A1) |_BV(WGM20); 
-  }else if(channel == 1){
-    TCCR2A = _BV(COM2B1) |_BV(WGM20); 
-  }else{
-    TCCR2A = _BV(COM2A1) |_BV(COM2B1) |_BV(WGM20); 
   }
 }
 
@@ -321,13 +313,18 @@ void DFRobot_GP8501::setDACOutVoltage(uint16_t data , uint8_t channel)
   if(data > _voltage){
     data = _voltage;
   }
-  data = (uint16_t)round(((float)data/_voltage)* 255);
+  data = (uint16_t)round(((float)data/_voltage)* 7999);
+  
   if(channel == 0){
-    OCR2A = data;
+    pinMode(9, OUTPUT);
+    OCR1A = data;
   }else if(channel == 1){
-    OCR2B = data;
+    pinMode(10, OUTPUT); 
+    OCR1B = data;
   }else{
-    OCR2A = data;
-	OCR2B = data;
+    pinMode(9, OUTPUT);
+    pinMode(10, OUTPUT);
+    OCR1A = data;
+	OCR1B = data;
   }
 }

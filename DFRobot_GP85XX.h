@@ -227,11 +227,10 @@ class DFRobot_GP8501: public DFRobot_GP85XX
      * @fn setDACOutRange
      * @brief 设置DAC输出范围
      * @param range DAC输出范围
-     * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
      * @param vcc VCC输入的电源电压
      * @return NONE
      */	
-    void setDACOutRange(eOutPutRange_t range,  uint8_t channel,float vcc = 5);
+    void setDACOutRange(eOutPutRange_t range, float vcc = 5);
   
     /**
      * @fn setDACOutVoltage
