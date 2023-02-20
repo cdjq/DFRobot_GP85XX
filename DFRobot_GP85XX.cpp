@@ -57,7 +57,11 @@ void DFRobot_GP8503::setDACOutRange(eOutPutRange_t range,float vcc)
 
 void DFRobot_GP8503::setDACOutVoltage(uint16_t data, uint8_t channel,uint16_t value)
 {
-  data = (uint16_t)(((float)data / _voltage) * value);
+  if(data > _voltage){
+    data = _voltage;
+  }
+  data = (uint16_t)round(((float)data / _voltage) * value);
+  Serial.println(data);
   if(value == 4095 ){
     data = data << 4;
     sendData(data, channel);
@@ -272,9 +276,9 @@ void DFRobot_GP8101::setDACOutRange(eOutPutRange_t range)
 void DFRobot_GP8101::setDACOutVoltage(uint16_t data)
 {
   if(data > _voltage){
-    OCR2B = _voltage;
+    data = _voltage;
   }
-  data = (uint16_t)(((float)data*10 / _voltage)/10 * OCR2A);
+  data = (uint16_t)round(((float)data*10 / _voltage)/10 * OCR2A);
   OCR2B = data;
   Serial.println(OCR2B);
 }
@@ -317,7 +321,7 @@ void DFRobot_GP8501::setDACOutVoltage(uint16_t data , uint8_t channel)
   if(data > _voltage){
     data = _voltage;
   }
-  data = (uint16_t)(((float)data/_voltage)* 255);
+  data = (uint16_t)round(((float)data/_voltage)* 255);
   if(channel == 0){
     OCR2A = data;
   }else if(channel == 1){
