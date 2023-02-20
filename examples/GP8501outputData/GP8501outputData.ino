@@ -18,7 +18,7 @@ void setup() {
   
   GP8501.begin();
   Serial.println("init succeed");
-  GP8501.setDACOutRange(GP8501.eOutputRange2_5V,2);
+  GP8501.setDACOutRange(GP8501.eOutputRange2_5V);
   GP8501.setDACOutVoltage(2000,2);
 }
 
