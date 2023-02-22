@@ -19,8 +19,8 @@
 #define I2C_CYCLE_TOTAL                     5     ///< Total I2C communication cycle
 #define I2C_CYCLE_BEFORE                    1     ///< The first half cycle 2 of the total I2C communication cycle
 #define I2C_CYCLE_AFTER                     2     ///< The second half cycle 3 of the total I2C communication cycle
-
-
+#define PWM_PASSAGG0                        0
+#define PWM_PASSAGG1                        1
 
 DFRobot_GP85XX::DFRobot_GP85XX()
 {
@@ -37,10 +37,9 @@ DFRobot_GP8503::DFRobot_GP8503(TwoWire *pWire,uint8_t addr)
 }
 
 
-bool DFRobot_GP8503::begin(void)
+void DFRobot_GP8503::begin(void)
 {
   _pWire->begin();
-  return true;
 }
 
 
@@ -219,9 +218,9 @@ DFRobot_GP8512::DFRobot_GP8512()
 {
 }
  
-bool DFRobot_GP8512::begin(void)
+void DFRobot_GP8512::begin(void)
 {
-  return _pgp8503.begin();
+  _pgp8503.begin();
 }
 
 
@@ -247,20 +246,28 @@ void DFRobot_GP8512::store(void)
   _pgp8503.store();
 }
 
+
+void DFRobot_GP8512::sendData(uint16_t data)
+{
+  _pgp8503.sendData(data,0);
+}
+
 /**************************************************************************
                        PWM转0-5V/VCC 模拟电压模块(GP8101)
  **************************************************************************/
-
-
-bool DFRobot_GP8101::begin(void)
+ 
+void DFRobot_GP8101::begin(uint8_t pin)
 {
-  pinMode(9, OUTPUT);
-  TCCR1A = _BV(COM1A1) | _BV(WGM11);
-  TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS10);
-  ICR1 = 7999; // 设置ICR1为4999，使得PWM频率为1000Hz
-  return true;
-} 
-
+  _pin = pin;
+  #if defined(ESP32)  
+    ledcSetup(PWM_PASSAGG0, 5000, 13);  ////分辨率为12位，即占空比可选0~8191
+	ledcAttachPin(_pin, PWM_PASSAGG0);
+  #elif defined(ESP8266) 
+    analogWriteRange(8191);
+  #else 
+    pinMode(_pin,OUTPUT);
+  #endif
+}
 
 void DFRobot_GP8101::setDACOutRange(eOutPutRange_t range)
 {
@@ -278,22 +285,58 @@ void DFRobot_GP8101::setDACOutVoltage(uint16_t data)
   if(data > _voltage){
     data = _voltage;
   }
-  data = (uint16_t)round(((float)data/_voltage)* 7999);
-  Serial.println(data);
-  OCR1A = data;
+  #if defined(ESP32) || defined(ESP8266)
+    data = (uint16_t)round(((float)data/_voltage)* 8191);
+  #else 
+    data = (uint16_t)round(((float)data/_voltage)* 255);
+  #endif
+  sendData(data); 
+}
+
+
+void DFRobot_GP8101::sendData(uint16_t data)
+{
+  #if defined(ESP32)  
+    ledcWrite(PWM_PASSAGG0, data);
+  #else 
+    analogWrite(_pin, data);
+  #endif
 }
  
 /**************************************************************************
                        PWM转2路0-2.5V/VCC 模拟电压模块(GP8501)
  **************************************************************************/
- 
 
-bool DFRobot_GP8501::begin(void)
+
+void DFRobot_GP8501::begin(uint8_t pin)
 {
-  TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11);
-  TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS10);
-  ICR1 = 7999; // 设置ICR1为7999，使得PWM频率为2000Hz
-  return true;
+  _pin0 = pin;
+   #if defined(ESP32)  
+    ledcSetup(PWM_PASSAGG0, 5000, 13);  ////分辨率为12位，即占空比可选0~8191
+	ledcAttachPin(_pin0, PWM_PASSAGG0);
+  #elif defined(ESP8266) 
+    analogWriteRange(8191);
+  #else 
+    pinMode(_pin0,OUTPUT);
+  #endif
+}
+
+
+void DFRobot_GP8501::begin(uint8_t pin0,uint8_t pin1)
+{
+  _pin0 = pin0;
+  _pin1 = pin1;
+  #if defined(ESP32)  
+    ledcSetup(PWM_PASSAGG0, 5000, 13);  ////分辨率为13位，即占空比可选0~8191
+	ledcSetup(PWM_PASSAGG1, 5000, 13);
+	ledcAttachPin(_pin0, PWM_PASSAGG0);
+	ledcAttachPin(_pin1, PWM_PASSAGG1);
+  #elif defined(ESP8266) 
+    analogWriteRange(8191);
+  #else 
+    pinMode(_pin0,OUTPUT);
+    pinMode(_pin1,OUTPUT);
+  #endif
 }
 
 
@@ -313,18 +356,34 @@ void DFRobot_GP8501::setDACOutVoltage(uint16_t data , uint8_t channel)
   if(data > _voltage){
     data = _voltage;
   }
-  data = (uint16_t)round(((float)data/_voltage)* 7999);
-  
-  if(channel == 0){
-    pinMode(9, OUTPUT);
-    OCR1A = data;
-  }else if(channel == 1){
-    pinMode(10, OUTPUT); 
-    OCR1B = data;
-  }else{
-    pinMode(9, OUTPUT);
-    pinMode(10, OUTPUT);
-    OCR1A = data;
-	OCR1B = data;
-  }
+  #if defined(ESP32) || defined(ESP8266)
+    data = (uint16_t)round(((float)data/_voltage)* 8191);
+  #else 
+    data = (uint16_t)round(((float)data/_voltage)* 255);
+  #endif
+  sendData(data, channel);
+}
+
+
+void DFRobot_GP8501::sendData(uint16_t data, uint8_t channel)
+{
+  #if defined(ESP32)  
+    if(channel == 0){
+      ledcWrite(PWM_PASSAGG0, data);
+    }else if(channel == 1){
+      ledcWrite(PWM_PASSAGG1, data);
+    }else{
+      ledcWrite(PWM_PASSAGG0, data);
+	  ledcWrite(PWM_PASSAGG1, data);
+    }
+  #else 
+    if(channel == 0){
+      analogWrite(_pin0, data);
+    }else if(channel == 1){
+      analogWrite(_pin1, data);
+    }else{
+      analogWrite(_pin0, data);
+	  analogWrite(_pin1, data);
+    }
+  #endif
 }

@@ -13,16 +13,18 @@
 
 DFRobot_GP8501 GP8501;
 
+int pin0 = 9;
+int pin1 = 10;
+
 void setup() {
   Serial.begin(115200);
   
-  GP8501.begin();
+  GP8501.begin(pin0,pin1);
   Serial.println("init succeed");
   GP8501.setDACOutRange(GP8501.eOutputRange2_5V);
   GP8501.setDACOutVoltage(2000,2);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
 }

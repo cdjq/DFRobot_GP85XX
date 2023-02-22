@@ -13,16 +13,17 @@
 
 DFRobot_GP8101 GP8101;
 
+int pin = 9;
+
 void setup() {
   Serial.begin(115200);
   
-  GP8101.begin();
+  GP8101.begin(pin);
   Serial.println("init succeed");
   GP8101.setDACOutRange(GP8101.eOutputRange5V);
-  GP8101.setDACOutVoltage(2000);
+  GP8101.setDACOutVoltage(4000);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
 }

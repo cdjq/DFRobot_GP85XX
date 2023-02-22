@@ -19,8 +19,8 @@ void setup() {
   GP8503.begin();
   Serial.println("init succeed");
 
-  GP8503.setDACOutRange(GP8503.eOutputRangeVCC,3.3);
-  GP8503.setDACOutVoltage(1500,2);
+  GP8503.setDACOutRange(GP8503.eOutputRange2_5V);
+  GP8503.setDACOutVoltage(2000,2);
   delay(1000);
   GP8503.store();
 }

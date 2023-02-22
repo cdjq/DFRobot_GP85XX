@@ -36,12 +36,6 @@ class DFRobot_GP85XX
      * @return None
      */
     DFRobot_GP85XX();
-     /**
-     * @fn begin
-     * @brief Init function
-     * @return bool type, true if successful, false if error
-     */
-    virtual bool begin(void) = 0;
   
   private:
   
@@ -74,7 +68,7 @@ class DFRobot_GP8503: public DFRobot_GP85XX
      * @fn begin
      * @brief 初始化函数
      */
-    bool begin(void);
+    void begin(void);
 
     /**
      * @fn setDACOutRange
@@ -99,6 +93,15 @@ class DFRobot_GP8503: public DFRobot_GP85XX
      * @brief 将设置的电压保存在芯片内部
      */
     void store(void);
+	
+	/**
+     * @fn sendData
+     * @brief 设置IIC输入值
+     * @param data 需要设置的输入值(0-fff)
+     * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
+     * @return NONE
+     */
+	void sendData(uint16_t data, uint8_t channel);
 
     protected:
   
@@ -117,7 +120,7 @@ class DFRobot_GP8503: public DFRobot_GP85XX
     int _sda = SDA;
     uint8_t _addr;
     uint16_t _voltage = 0;
-    void sendData(uint16_t data, uint8_t channel);
+    
 };
 
 /**************************************************************************
@@ -138,7 +141,7 @@ class DFRobot_GP8512: public DFRobot_GP85XX
      * @fn begin
      * @brief 初始化函数
      */
-    bool begin(void);
+    void begin(void);
 
     /**
      * @fn setDACOutRange
@@ -157,7 +160,18 @@ class DFRobot_GP8512: public DFRobot_GP85XX
      */
     void setDACOutVoltage(uint16_t data);
 	
+	/**
+     * @brief 将设置的电压保存在芯片内部
+     */
     void store(void);
+	
+	/**
+     * @fn sendData
+     * @brief 设置IIC输入值
+     * @param data 需要设置的输入值(0-7fff)
+     * @return NONE
+     */
+	void sendData(uint16_t data);
   
   private:
     
@@ -180,7 +194,7 @@ class DFRobot_GP8101: public DFRobot_GP8512
      * @fn begin
      * @brief 初始化函数
      */
-    bool begin(void);
+	void begin(uint8_t pin);
   
     /**
      * @fn setDACOutRange
@@ -197,11 +211,20 @@ class DFRobot_GP8101: public DFRobot_GP8512
      * @return NONE
      */
     void setDACOutVoltage(uint16_t data);
+	
+	/**
+     * @fn sendData
+     * @brief 设置PWM占空比
+     * @param data 需要设置的占空比
+     * @return NONE
+     */
+	void sendData(uint16_t data);
   
     private:
   
     uint16_t _voltage = 0;
 	uint16_t _frequency = 2000;
+	uint8_t _pin;
   
 };
 
@@ -219,9 +242,18 @@ class DFRobot_GP8501: public DFRobot_GP85XX
     
 	/**
      * @fn begin
+     * @param pin0 PWM输出引脚0
+     * @param pin1 PWM输出引脚1
      * @brief 初始化函数
      */
-    bool begin(void);
+    void begin(uint8_t pin0,uint8_t pin1);
+	
+	/**
+     * @fn begin
+     * @param pin PWM输出引脚
+     * @brief 初始化函数
+     */
+	void begin(uint8_t pin);
   
     /**
      * @fn setDACOutRange
@@ -240,11 +272,22 @@ class DFRobot_GP8501: public DFRobot_GP85XX
      * @return NONE
      */
     void setDACOutVoltage(uint16_t data, uint8_t channel);
+	
+	/**
+     * @fn sendData
+     * @brief 设置PWM占空比
+     * @param data 需要设置的占空比
+     * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
+     * @return NONE
+     */
+	void sendData(uint16_t data, uint8_t channel);
   
   private:
   
     uint16_t _voltage = 0;
     uint16_t _frequency = 2000;
+	uint8_t _pin0;
+	uint8_t _pin1;
   
 };
 
