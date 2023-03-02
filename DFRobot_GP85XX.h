@@ -74,7 +74,9 @@ class DFRobot_GP8503: public DFRobot_GP85XX
      * @fn setDACOutRange
      * @brief 设置DAC输出范围
      * @param range DAC输出范围
-     * @param vcc VCC输入的电源电压
+     * @n     eOutputRange2_5V(0-2.5V)
+     * @n     eOutputRangeVCC(0-VCC)
+     * @param vcc VCC输入的电源电压,VCC范围(2.7V-5.5V)
      * @return NONE
      */	
     void setDACOutRange(eOutPutRange_t range,float vcc = 5);
@@ -147,7 +149,9 @@ class DFRobot_GP8512: public DFRobot_GP85XX
      * @fn setDACOutRange
      * @brief 设置DAC输出范围
      * @param range DAC输出范围
-     * @param vcc VCC输入的电源电压
+     * @n     eOutputRange2_5V(0-2.5V)
+     * @n     eOutputRangeVCC(0-VCC)
+     * @param vcc VCC输入的电源电压,VCC范围(2.7V-5.5V)
      * @return NONE
      */	
     void setDACOutRange(eOutPutRange_t range,float vcc = 5);
@@ -192,6 +196,7 @@ class DFRobot_GP8101: public DFRobot_GP8512
     
     /**
      * @fn begin
+     * @param pin PWM出输出接口
      * @brief 初始化函数
      */
 	void begin(uint8_t pin);
@@ -200,6 +205,8 @@ class DFRobot_GP8101: public DFRobot_GP8512
      * @fn setDACOutRange
      * @brief 设置DAC输出范围
      * @param range DAC输出范围
+     * @n     eOutputRange5V(0-5V)
+     * @n     eOutputRange10V(0-10V)
      * @return NONE
      */	
     void setDACOutRange(eOutPutRange_t range);
@@ -215,7 +222,7 @@ class DFRobot_GP8101: public DFRobot_GP8512
 	/**
      * @fn sendData
      * @brief 设置PWM占空比
-     * @param data 需要设置的占空比
+     * @param data 需要设置的占空比(0-255),ESP32和ESP8266为：(0-8191)
      * @return NONE
      */
 	void sendData(uint16_t data);
@@ -242,16 +249,16 @@ class DFRobot_GP8501: public DFRobot_GP85XX
     
 	/**
      * @fn begin
+     * @brief 初始化函数
      * @param pin0 PWM输出引脚0
      * @param pin1 PWM输出引脚1
-     * @brief 初始化函数
      */
     void begin(uint8_t pin0,uint8_t pin1);
 	
 	/**
      * @fn begin
-     * @param pin PWM输出引脚
      * @brief 初始化函数
+     * @param pin PWM输出引脚	 
      */
 	void begin(uint8_t pin);
   
@@ -259,7 +266,9 @@ class DFRobot_GP8501: public DFRobot_GP85XX
      * @fn setDACOutRange
      * @brief 设置DAC输出范围
      * @param range DAC输出范围
-     * @param vcc VCC输入的电源电压
+     * @n     eOutputRange2_5V(0-2.5V)
+     * @n     eOutputRangeVCC(0-VCC) 
+     * @param vcc VCC输入的电源电压,VCC范围(2.7V-5.5V)
      * @return NONE
      */	
     void setDACOutRange(eOutPutRange_t range, float vcc = 5);

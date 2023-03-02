@@ -69,7 +69,7 @@ class DFRobot_GP8503(DFRobot_GP85XX):
 
   def begin(self):
     '''!
-      @param Initialize the sensor
+      @param 初始化函数
     '''
     if self.i2c.read_byte(self._addr) != 0:
       return 0
@@ -80,6 +80,8 @@ class DFRobot_GP8503(DFRobot_GP85XX):
       @brief 设置DAC输出范围
       @param VCC 输入的电源电压
       @param mode DAC输出范围
+      @n     OUTPUT_RANGE_2_5V(0-2.5V)
+      @n     OUTPUT_RANGE_VCC(0-VCC)
     '''
     if mode == OUTPUT_RANGE_2_5V:
       self.voltage = 2500
@@ -221,6 +223,8 @@ class DFRobot_GP8512(DFRobot_GP85XX):
       @brief 设置DAC输出范围
       @param VCC 输入的电源电压
       @param mode DAC输出范围
+      @n     OUTPUT_RANGE_2_5V(0-2.5V)
+      @n     OUTPUT_RANGE_VCC(0-VCC)
     '''
     if mode == OUTPUT_RANGE_2_5V:
       self.gp8503.set_DAC_outrange(mode)
@@ -261,6 +265,8 @@ class DFRobot_GP8501(DFRobot_GP85XX):
     '''!
       @brief 设置DAC输出范围
       @param mode DAC输出范围
+      @n     OUTPUT_RANGE_2_5V(0-2.5V)
+      @n     OUTPUT_RANGE_VCC(0-VCC)
       @param frequency PWM频率
       @param channel 输出通道 0:通道0;1:通道1;2:全部通道
       @param vcc VCC输入的电源电压
@@ -320,6 +326,8 @@ class DFRobot_GP8101(DFRobot_GP85XX):
     '''!
       @brief 设置DAC输出范围
       @param mode DAC输出范围
+      @n     OUTPUT_RANGE_5V(0-5V)
+      @n     OUTPUT_RANGE_10V(0-10V)
       @param frequency PWM频率
     '''
     if mode == OUTPUT_RANGE_5V:

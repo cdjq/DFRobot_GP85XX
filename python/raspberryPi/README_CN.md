@@ -39,6 +39,7 @@ sudo git clone https://github.com/DFRobot/DFRobot_GP8403
 
 ```python
 
+#################I2C转2路0-2.5/VCC 模拟电压模块(GP8503)#################
   '''!
      @brief 初始化函数
   '''
@@ -48,6 +49,8 @@ sudo git clone https://github.com/DFRobot/DFRobot_GP8403
     @brief 设置DAC输出范围
     @param VCC 输入的电源电压
     @param mode DAC输出范围
+    @n     OUTPUT_RANGE_2_5V(0-2.5V)
+    @n     OUTPUT_RANGE_VCC(0-VCC)
   '''
   def set_DAC_outrange(self, mode, vcc)
 
@@ -64,6 +67,23 @@ sudo git clone https://github.com/DFRobot/DFRobot_GP8403
   '''
   def store(self)
 
+#################I2C转0-2.5/VCC (15bit) 模拟电压模块(GP8512)#################
+
+  '''!
+    @brief 初始化函数
+  '''
+  def begin(self)
+
+  '''!
+    @brief 设置DAC输出范围
+    @param VCC 输入的电源电压
+    @param mode DAC输出范围
+    @n     OUTPUT_RANGE_2_5V(0-2.5V)
+    @n     OUTPUT_RANGE_VCC(0-VCC)
+  '''
+  def set_DAC_outrange(self, mode, vcc=5)
+
+
   '''!
     @brief 设置输出DAC值
     @param data 需要输出的电压值
@@ -71,8 +91,21 @@ sudo git clone https://github.com/DFRobot/DFRobot_GP8403
   def set_DAC_out_voltage(self, data)
 
   '''!
+    @brief   将设置的电压保存在芯片内部
+  '''
+  def store(self)
+
+#################PWM转2路0-2.5V/VCC 模拟电压模块(GP8501)#################
+  '''!
+    @brief 初始化函数
+  '''
+  def begin(self)
+
+  '''!
     @brief 设置DAC输出范围
     @param mode DAC输出范围
+    @n     OUTPUT_RANGE_2_5V(0-2.5V)
+    @n     OUTPUT_RANGE_VCC(0-VCC)
     @param frequency PWM频率
     @param channel 输出通道 0:通道0;1:通道1;2:全部通道
     @param vcc VCC输入的电源电压
@@ -86,12 +119,27 @@ sudo git clone https://github.com/DFRobot/DFRobot_GP8403
   '''
   def set_DAC_out_voltage(self, data, channel)
 
+#################PWM转2路0-2.5V/VCC 模拟电压模块(GP8101)#################
+
+  '''!
+    @brief 初始化函数
+  '''
+  def begin(self)
+
   '''!
     @brief 设置DAC输出范围
     @param mode DAC输出范围
+    @n     OUTPUT_RANGE_5V(0-5V)
+    @n     OUTPUT_RANGE_10V(0-10V)
     @param frequency PWM频率
   '''
   def set_DAC_outrange(self, mode, frequency)
+
+  '''!
+    @brief 设置不同通道输出DAC值
+    @param data 需要输出的电压值
+  '''
+  def set_DAC_out_voltage(self, data)
  
 ```
 

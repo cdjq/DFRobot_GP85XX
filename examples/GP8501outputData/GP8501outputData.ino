@@ -18,11 +18,33 @@ int pin1 = 10;
 
 void setup() {
   Serial.begin(115200);
-  
+  /**
+   * @brief 初始化函数
+   * @param pin0 PWM输出引脚0
+   * @param pin1 PWM输出引脚1
+   */
   GP8501.begin(pin0,pin1);
   Serial.println("init succeed");
+  /**
+   * @brief 设置DAC输出范围
+   * @param range DAC输出范围
+   * @n     eOutputRange2_5V(0-2.5V)
+   * @n     eOutputRangeVCC(0-VCC) 
+   * @param vcc VCC输入的电源电压,VCC范围(2.7V-5.5V)
+   */	
   GP8501.setDACOutRange(GP8501.eOutputRange2_5V);
+  /**
+   * @brief 设置不同通道输出DAC值
+   * @param data 需要输出的电压值
+   * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
+   */
   GP8501.setDACOutVoltage(2000,2);
+  /**
+   * @brief 设置PWM占空比
+   * @param data 需要设置的占空比
+   * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
+   */
+	//GP8501.sendData(uint16_t data, uint8_t channel);
 }
 
 void loop() {
