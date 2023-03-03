@@ -36,10 +36,10 @@ void setup() {
   GP8503.setDACOutVoltage(2000,2);
   /**
    * @brief 设置IIC输入值
-   * @param data 需要设置的输入值(0-fff)
+   * @param data 需要设置的输入值(0-4095)
    * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
    */
-  //GP8503.sendData(fff,2);
+  //GP8503.sendData(4095,2);
   delay(1000);
   //将设置的电压保存在芯片内部
   GP8503.store();

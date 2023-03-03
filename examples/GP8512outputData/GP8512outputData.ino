@@ -34,9 +34,9 @@ void setup() {
   GP8512.setDACOutVoltage(2000);
   /**
    * @brief 设置IIC输入值
-   * @param data 需要设置的输入值(0-7fff)
+   * @param data 需要设置的输入值(0-32767)
    */
-  //GP8512.sendData(7fff);
+  //GP8512.sendData(32767);
   delay(1000);
   //将设置的电压保存在芯片内部
   GP8512.store();
