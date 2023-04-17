@@ -1,6 +1,6 @@
 /*!
   * @file GP8101outputData.ino
-  * @brief 
+  * @brief 设置输出电压值和范围，将PWM信号转换为1路0--5V或0-10V的模拟电压信号
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @license     The MIT License (MIT)
   * @author      [Baikunlin](kunlin.bai@dfrobot.com)
@@ -13,6 +13,7 @@
 
 DFRobot_GP8101 GP8101;
 
+//输出IO口
 int pin = 9;
 
 void setup() {

@@ -1,6 +1,6 @@
 /*!
   * @file GP8501outputData.ino
-  * @brief 
+  * @brief 设置输出通道、电压值和输出范围，将PWM信号转换为2路0-2.5V或0-VCC(2.7V-5.5V)的模拟电压信号
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @license     The MIT License (MIT)
   * @author      [Baikunlin](kunlin.bai@dfrobot.com)
@@ -13,11 +13,19 @@
 
 DFRobot_GP8501 GP8501;
 
+//双通道输出IO口
 int pin0 = 9;
 int pin1 = 10;
+//单通道输出IO口
+// int pin = 9;
 
 void setup() {
   Serial.begin(115200);
+  /**
+   * @brief 初始化函数
+   * @param pin PWM输出引脚	 
+   */
+  //GP8501.begin(pin);
   /**
    * @brief 初始化函数
    * @param pin0 PWM输出引脚0
@@ -39,6 +47,10 @@ void setup() {
    * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
    */
   GP8501.setDACOutVoltage(2000,2);
+  //通道0
+  // GP8501.setDACOutVoltage(2000, 0);
+  //通道1
+  // GP8501.setDACOutVoltage(2000, 1);
   /**
    * @brief 设置PWM占空比
    * @param data 需要设置的占空比

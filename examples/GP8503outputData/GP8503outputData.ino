@@ -1,6 +1,6 @@
 /*!
   * @file GP8503outputData.ino
-  * @brief 
+  * @brief 设置输出通道、电压值和范围，将I2C信号转换为2路0-2.5V或0-VCC(2.7V-5.5V)的模拟电压信号。
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @license     The MIT License (MIT)
   * @author      [Baikunlin](kunlin.bai@dfrobot.com)
@@ -34,6 +34,8 @@ void setup() {
    * @param channel 输出通道 0:通道0;1:通道1;2:全部通道
    */   
   GP8503.setDACOutVoltage(2000,2);
+  // GP8503.setDACOutVoltage(2000,0);
+  // GP8503.setDACOutVoltage(2000,1);
   /**
    * @brief 设置IIC输入值
    * @param data 需要设置的输入值(0-4095)

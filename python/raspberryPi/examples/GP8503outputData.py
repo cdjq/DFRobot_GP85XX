@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 '''!
   @file  GP8503output_data.py
-  @brief
+  @brief 设置输出通道、电压值和范围，将I2C信号转换为2路0-2.5V或0-VCC(2.7V-5.5V)的模拟电压信号。
   @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license  The MIT License (MIT)
   @author  [Baikunlin](kunlin.bai@dfrobot.com)
@@ -29,7 +29,7 @@ print("init succeed")
   @brief 设置DAC输出范围
   @param mode DAC输出范围
   @n     OUTPUT_RANGE_2_5V(0-2.5V)
-  @n     OUTPUT_RANGE_VCC(0-VCC)
+  @n     OUTPUT_RANGE_VCC(0-VCC),VCC范围(2.7V-5.5V)
   @param vcc VCC输入的电源电压
 '''
 DAC.set_DAC_outrange(OUTPUT_RANGE_VCC, 5)

@@ -105,7 +105,7 @@ class DFRobot_GP8503: public DFRobot_GP85XX
      */
 	void sendData(uint16_t data, uint8_t channel);
 
-    protected:
+  protected:
   
     void startSignal(void);
 	

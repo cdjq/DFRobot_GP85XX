@@ -60,7 +60,7 @@ void DFRobot_GP8503::setDACOutVoltage(uint16_t data, uint8_t channel,uint16_t va
     data = _voltage;
   }
   data = (uint16_t)round(((float)data / _voltage) * value);
-  Serial.println(data);
+  //Serial.println(data);
   if(value == 4095 ){
     data = data << 4;
     sendData(data, channel);
@@ -72,6 +72,7 @@ void DFRobot_GP8503::setDACOutVoltage(uint16_t data, uint8_t channel,uint16_t va
 
 void DFRobot_GP8503::sendData(uint16_t data, uint8_t channel)
 {
+  
   if(channel == 0){
     _pWire->beginTransmission(_addr);
     _pWire->write(GP85XX_CONFIG_CURRENT_REG);

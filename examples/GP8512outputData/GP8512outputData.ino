@@ -1,6 +1,6 @@
 /*!
   * @file GP8512outputData.ino
-  * @brief 
+  * @brief 设置输出电压值和范围，将I2C信号转换为1路0-2.5V或0-VCC(2.7V-5.5V)的模拟电压信号
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @license     The MIT License (MIT)
   * @author      [Baikunlin](kunlin.bai@dfrobot.com)
@@ -31,12 +31,12 @@ void setup() {
    * @brief 设置不同通道输出DAC值
    * @param data 需要输出的电压值
    */   
-  GP8512.setDACOutVoltage(2000);
+  //GP8512.setDACOutVoltage(2000);
   /**
    * @brief 设置IIC输入值
    * @param data 需要设置的输入值(0-32767)
    */
-  //GP8512.sendData(32767);
+  GP8512.sendData(32767);
   delay(1000);
   //将设置的电压保存在芯片内部
   GP8512.store();

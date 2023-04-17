@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 '''!
   @file  GP8101output_data.py
-  @brief
+  @brief 设置输出电压值和范围，将PWM信号转换为1路0--5V或0-10V的模拟电压信号
   @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license  The MIT License (MIT)
   @author  [Baikunlin](kunlin.bai@dfrobot.com)
@@ -34,7 +34,7 @@ print("init succeed")
 DAC.set_DAC_outrange(OUTPUT_RANGE_5V, 100)
 '''!
   @brief 设置输出DAC值
-  @param data 需要输出的电压值,范围（0-2500）或（0-VCC*1000）
+  @param data 需要输出的电压值,范围（0-5000）或（0-10000）
 '''
 DAC.set_DAC_out_voltage(2500)
 
